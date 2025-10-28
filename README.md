@@ -1,1 +1,3 @@
-https://nexus.ftb.gov:8443/service/rest/browse/assets?repository=EDRRELEASE&node=gov/ca/ftb/arch/ecm/idax/IRSClientJar
+curl -u admin:yourpassword -X PUT `
+  -T "C:\path\to\maven-metadata.xml" `
+  "https://ftbnexus:8444/repository/EDRRELEASE/idax/IRSClientJar/maven-metadata.xml"
