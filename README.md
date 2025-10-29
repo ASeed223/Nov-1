@@ -1,5 +1,17 @@
-Here are the details steps to troubleshoot the errors below.
+Here are the detailed steps to troubleshoot the errors below:
 
-For the error 1, I simply relocated the file to the first "appServer" and removed the "appServer ".
+Error 1:
+I simply relocated the file to the first “appServer” directory and removed the extra “appServer ” folder.
 
-For the error 2 is the trickly one. Since the logs did not tell what the error was. So it take some time to figure out how to troubuleshoot this error. Usually for this type of error, we can simply run the "Repair - Reconcile component databsae from blob store" task in nexus to fix the issue, however, for this error, running the reconcile task alone is not enough to fully resolve the issue because it doesn;t completely refresh the blob metadata cache or rebuild component indexes. To work around this, I figure out that we coule run a specific sequence of repair tasks that together achieve the same result. First, the “Repair – Recalculate blob store storage” task forces Nexus to rescan the blob store and rebuild any missing .properties or metadata cache entries. Next, the “Repair – Reconcile component database from blob store” task correctly re-synchronizes the database with the blob store. After that, running “Repair – Rebuild repository browse” reconstructs the Browse tree in the UI so all components become visible again. Finally, the “Repair – Rebuild Maven repository metadata (maven-metadata.xml)” task regenerates the actual metadata files for each group and artifact.
+Error 2:
+This one is a bit tricky since the logs didn’t specify what the exact error was, so it took some time to figure out how to troubleshoot it. Usually, for this type of error, we can run the “Repair – Reconcile component database from blob store” task in Nexus to fix the issue. However, in this case, running the reconcile task alone isn’t enough to fully resolve the problem because it doesn’t completely refresh the blob metadata cache or rebuild the component indexes.
+
+To work around this, I found that we can run a specific sequence of repair tasks that together achieve the same result:
+
+Repair – Recalculate blob store storage: Forces Nexus to rescan the blob store and rebuild any missing .properties or metadata cache entries.
+
+Repair – Reconcile component database from blob store: Re-synchronizes the database with the blob store.
+
+Repair – Rebuild repository browse: Reconstructs the Browse tree in the UI so all components become visible again.
+
+Repair – Rebuild Maven repository metadata (maven-metadata.xml): Regenerates the actual metadata files for each group and artifact.
