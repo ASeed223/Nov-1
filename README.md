@@ -1,2 +1,1 @@
-# Nexus IQ Scanner for Pega EAR
-python /home/cmdeploy/sonatype/scan.py ${Repository} ${Version} ear
+Good morning everyone, just a quick update from me. Yesterday, besides helping upload four Pega zips to DEV3 and TST3, I mainly worked on the Nexus scan pipeline for Pega EARs in Jenkins. I completed the setup yesterday, so today I’ll spend some time testing the pipeline and reviewing the results. That’s my plan for today.
