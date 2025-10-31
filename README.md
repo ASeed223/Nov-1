@@ -1,8 +1,4 @@
-myRepo="c:/gitrepos/build/${trimRelease}"
-python -u ${gitMasterLoc}/configmgmt/tfs/setupGitRepo.py -r "$myRepo" -b "$trimRelease" -s "java" -t "false"
+#perl ${fullWinRepo}/configmgmt/pega/build-pega-ear.pl --localGitRepo="${fullWinRepo}" --bulkUploadBaseline=${BULK_UPLOAD_static} --pegaEarBaseline=${PEGA_EAR} ${DeployToNexus}
 
-javaRepo="${myRepo}/java"
-#EDR_MAVEN_SETTINGS=${javaRepo}/arch/build/maven/edr-settings.xml
-ccperl ${javaRepo}/arch/build/maven/maven-build-all-ears.pl --localGitRepo=${javaRepo} --earBaseline=${JAVA_APPS} --buildType="both" ${DeployToNexus}
-
-earBaseline=${JAVA_APPS} 
+perl ${fullWinRepo}/java/arch/build/maven/maven-build.pl --localGitRepo=${fullWinRepo}/java  --skipUpdate --deploy --module=splash_screen --path=bpm/pega_ear/splash_screen --moduleBaseline=${PEGA_EAR}
+perl ${fullWinRepo}/java/arch/build/maven/maven-build.pl --localGitRepo=${fullWinRepo}/java  --skipUpdate --deploy --module=pega-ear --path=bpm/pega_ear/ear_modules --bulkUploadBaseline=${BULK_UPLOAD_static} --moduleBaseline=${PEGA_EAR}
