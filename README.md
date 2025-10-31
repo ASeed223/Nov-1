@@ -1,16 +1,15 @@
-Repository=EDRRELEASE
-Version=${BuildRecordId}
-Type=ear
+pega ear
 
-
-
-echo "Repository=${Repository}"
-echo "Version=${Version}"
-echo "Type=${Type}"
-
-if [ -z "${Version}" ]; then
-  echo "ERROR: Version is empty. Check upstream trigger parameters."
-  exit 1
+if [ ! -d "s:/working" ]; then
+    net use s: \\\\fp936\\edrcmtools 
 fi
 
-python /home/cmdeploy/sonatype/scan.py "${Repository}" "${Version}" ear
+git -C $gitMasterLoc pull -f
+
+$GROOVY_HOME/bin/groovy.bat $gitMasterLoc/configmgmt/generalscripts/prepare_environment.groovy -b "$BuildRecordId" -fw "$OverrideWinRepo"
+
+#perl ${fullWinRepo}/configmgmt/pega/build-pega-ear.pl --localGitRepo="${fullWinRepo}" --bulkUploadBaseline=${BULK_UPLOAD_static} --pegaEarBaseline=${PEGA_EAR} ${DeployToNexus}
+
+perl ${fullWinRepo}/java/arch/build/maven/maven-build.pl --localGitRepo=${fullWinRepo}/java  --skipUpdate --deploy --module=splash_screen --path=bpm/pega_ear/splash_screen --moduleBaseline=${PEGA_EAR}
+perl ${fullWinRepo}/java/arch/build/maven/maven-build.pl --localGitRepo=${fullWinRepo}/java  --skipUpdate --deploy --module=pega-ear --path=bpm/pega_ear/ear_modules --bulkUploadBaseline=${BULK_UPLOAD_static} --moduleBaseline=${PEGA_EAR}
+
