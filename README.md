@@ -1,169 +1,52 @@
-EDR1 Repositories
-
-Repos:
-
-• Arisant
-
-• EDL-Utilities
-
-• EDR-AEM-Utilities
-
-• EDR-AMZ-Utilities
-
-• EDR-AnalyticModels-Audit
-
-• EDR-AnalyticModels-Collections
-
-• EDR-AnalyticModels-FE
-
-• EDR-AnalyticModels-Legal
-
-• EDR-AnalyticModels-Pipelines
-
-• EDR-AnalyticModels-RA
-
-• EDR-AppDev-Forms
-
-• EDR-AppDev-Middleware
-
-• EDR-AppDev-NonJava
-
-• EDR-Architecture-Sample
-
-• EDR-Automation-Test
-
-• EDR-Batch-Client
-
-• EDR-Case-Archive
-
-• EDR-Case-Document-API
-
-• EDR-Case-Document-Templates
-
-• EDR-CnfgMgmt-Ansible
-
-• EDR-CnfgMgmt-Pipelines
-
-• EDR-Collections-Batch
-
-• EDR-Collections-Integration
-
-• EDR-Collections-Persistence
-
-• EDR-Data-ETL
-
-• EDR-Data-MDM
-
-• EDR-Data-PySpark
-
-• EDR-Data-Virtualization
-
-• EDR-Data-Visualization
-
-• EDR-EASE-Okta-MyFTB-Integration
-
-• EDR-ECM-Services
-
-• EDR-Electronic-IA-Service
-
-• EDR-Electronic-IA-UI
-
-• EDR-Emulator-Services
-
-• EDR-Filing-Enforcement-Batch
-
-• EDR-Filing-Enforcement-Persistence
-
-• EDR-Filing-Services
-
-• EDR-Fraud-Scoring-Service
-
-• EDR-Health-Checks-Dashboard
-
-• EDR-Hearing-Services
-
-• EDR-iCapture
-
-• EDR-Infrastructure-AppDev
-
-• EDR-Infrastructure-ConfigMGMT
-
-• EDR-Infrastructure-Environments
-
-• EDR-Infrastructure-Hive
-
-• EDR-Infrastructure-PRPC
-
-• EDR-Invariant-DataTools
-
-• EDR-Invariant-Legacy-Archive
-
-• EDR-Invariant-Legacy-Conversion
-
-• IVR Mindful CallBack
-
-• EDR-Knowledge-Library
-
-• EDR-Message-Repeater-Demographics
-
-• EDR-MyFTB-Fillable-Forms
-
-• EDR-MyFTB-Services
-
-• EDR-Non-Prod-Utilities
-
-• EDR-Offer-In-Compromise-Service
-
-• EDR-Offer-In-Compromise-UI
-
-• EDR-Online-Help
-
-• EDR-Open-Case-Doc
-
-• EDR-Ops-Monitoring-Service
-
-• EDR-PDF-Services
-
-• EDR-Persistence-EOD
-
-• EDR-Preferences-Services
-
-• EDR-Preferences-UI
-
-• EDR-Real-Estate-Withholding-Return-UI
-
-• EDR-Relationships-Services
-
-• EDR-Representatives-Services
-
-• EDR-Representatives-UI
-
-• EDR-Returns-Filing-Services
-
-• EDR-Returns-Filing-UI
-
-• EDR-Sanctum
-
-• EDR-ThirdParty-Services
-
-• EDR-ThirdParty-UI
-
-• EDR-TPF-UI
-
-• EDR-Withholding-Return-Batch
-
-• EDR-Withholding-Return-Persistence
-
-• EPSS-Python-Training
-
-• ETS-Environment-Properties
-
-• Modular-App-POC
-
-• PA-COMM-MGMT
-
-• FH-SSO-POC
-
-• TfsReporting
-
-• Third-Party-Data
+name: 'EDR2_Internal_Taxpayer_Folder_Nexus_IQ-Scan_Report $(date:yyyyMMdd)$(rev:.r)'
+
+trigger: none
+pr: none
+
+schedules:
+  - cron: "25 7 * * 0"
+    always: true
+    branches:
+      include:
+        - "master"
+    displayName: "Weekly Sunday Midnight Scan (12:25 AM)"
+
+resources:
+  repositories:
+    - repository: EDR-AppDev-JavaApps
+      type: git
+      name: EDR-AppDev-JavaApps
+      ref: develop/26.1
+    - repository: EDR-Audit-Services
+      type: git
+      name: EDR-Audit-Services
+      ref: develop/26.1.0
+pool:
+  name: 'Java-Maven'
+
+steps:
+  - checkout: EDR-AppDev-JavaApps
+    path: appDev
+    clean: true
+  - checkout: EDR-Audit-Services
+    path: auditServices
+    clean: true
+
+  # Use Java 17
+  - task: JavaToolInstaller@0
+    displayName: 'Use Java 17'
+    inputs:
+      versionSpec: 17
+      jdkArchitectureOption: x64
+      jdkSourceOption: PreInstalled
+
+  # Nexus IQ Scan
+  - task: SonatypeIntegrations.nexus-iq-azure-extension.nexus-iq-azure-pipeline-task.NexusIqPipelineTask@2
+    displayName: 'Nexus IQ Scan'
+    continueOnError: true
+    inputs:
+      nexusIqService: 'Nexus IQ Server'
+      applicationId: 'EDR2_Internal_Taxpayer_Folder_Pipeline'
+      stage: build
+      scanTargets: "appDev/arch/** appDev/business_services/** appDev/ecm/** appDev/forms/** appDev/itf/** appDev/mdm/** appDev/reports/** appDev/tf/** auditServices/** !**/node_modules/** !**/how_do_i/** !**/*.js !**/*.css !**/*.json !**/*.map"
+      scanPipelineWorkspace: true
