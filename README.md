@@ -1,6 +1,3 @@
-Good morning everyone,
-Last Friday, besides completing a few Pega zip deployments to DEV3 and TST3, I also finished coding the new IQ scan pipeline for the EDR1 repos. I’ll spend some time testing it out today.
+Good morning everyone, yesterday after the morning meeting, I completed a 26.1 branch request for the Analytic Model Services. Then I attended the TKT meeting. In the afternoon, I met with Jake, Philip, and Riley to go over Philip’s PBI, and also followed along to set up encrypted secrets with SOPS on lxadm101.
 
-As for today, I’ll be attending the OCP meeting with Philip and Riley to go over Philip’s PBI. I’ll also be the on-call person today, since Jay covered my previous on-call shift last month. I’ll also pick up or assist with any other tasks where I can help.
-
-That’s my plan for today.
+As for today, I’ll continue working on the tasks on my board and attend the few other meetings. That’s my plan for today.
