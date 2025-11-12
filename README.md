@@ -1,3 +1,19 @@
-Good morning everyone, yesterday after the morning meeting, I completed a 26.1 branch request for the Analytic Model Services. Then I attended the TKT meeting. In the afternoon, I met with Jake, Philip, and Riley to go over Philip’s PBI, and also followed along to set up encrypted secrets with SOPS on lxadm101.
+Hi [Name],
 
-As for today, I’ll continue working on the tasks on my board and attend the few other meetings. That’s my plan for today.
+Thanks for reaching out.
+
+For Sonatype Nexus, my responsibility is focused on the application layer — specifically the upgrade, maintenance, and ensuring that the Nexus service continues to operate properly. The underlying Linux server configuration, storage, and infrastructure resources are managed by a different team.
+
+Based on the Phase definitions in the spreadsheet, Nexus would fall under:
+
+Phase II – NTD (New Technology Deployment)
+This aligns with the upgrade activities, version refresh, configuration updates, and validation work that I handle during Nexus/IQ Server upgrades.
+
+Phase III – Operations
+This covers the ongoing maintenance, monitoring, and ensuring the Nexus service remains healthy after deployment.
+
+Please feel free to update the Master copy accordingly.
+If there is anything more needed from my side, let me know.
+
+Thanks,
+[Your Name]
