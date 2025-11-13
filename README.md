@@ -1,4 +1,1 @@
-Good morning everyone,
-Yesterday, besides attending meetings, I mainly focused on cleaning up the mess in TST3. We ended up needing to do a database restore on TST3, and I redeployed all the Pega zips from Monday and Wednesday.
-
-For today, I’ll spend some time working on the OCP pipeline update task that I picked up yesterday, and that’s my plan for today.
+Hi Madhuri, sorry for pinging you directly. This is Shushen from the CM team. The DB2 team is currently helping us perform a Pega database restore on TST3, and it looks like we need to stop QREP and Confluent. Could you please help us find someone on your team who is available right now to assist? We need to complete the database restore by the end of today, as the Pega developers will need TST3 tomorrow for testing. Thank you very much for your help!
