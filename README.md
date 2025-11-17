@@ -1,1 +1,3 @@
-Hi Madhuri, sorry for pinging you directly. This is Shushen from the CM team. The DB2 team is currently helping us perform a Pega database restore on TST3, and it looks like we need to stop QREP and Confluent. Could you please help us find someone on your team who is available right now to assist? We need to complete the database restore by the end of today, as the Pega developers will need TST3 tomorrow for testing. Thank you very much for your help!
+Hi everyone, this is Shushen. I joined the team a little over a year ago, so I still feel relatively new compared to some of the other team members. In the CM team, I mainly focus on tasks related to Nexus, the IQ server, and some Azure Pipelines that support the security team with their weekly scans.
+
+I’m also part of the OCP team, and I can share more about that later. If you’re interested in learning about any of these areas, feel free to reach out — I’m always happy to share what I know.
