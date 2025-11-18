@@ -1,3 +1,5 @@
-It looks like this issue is caused by a Git installation misconfiguration on your machine. During the Git setup process, there’s an option that allows Git to use the PC’s trusted certificate store for SSL. If that option isn’t enabled, Git won’t recognize the organization’s certificates, which leads to the “self-signed certificate in certificate chain” error you’re seeing when running git clone.
+Hi,
 
-You’ll need to work with the service desk to have them review and correct the Git installation on your system. They can reinstall or reconfigure Git using the proper settings so it picks up the PC’s trusted certificates. Once that’s done, the clone operation should work without the SSL error.
+I am following up on this matter. If this still needs to be taken care of, please create a task for the CM team and include the team email address that needs to be added, along with the environment you want it added to.
+
+Thank you.
