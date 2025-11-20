@@ -1,7 +1,3 @@
-Hi Tawheed,
+Hi Jack,
 
-Based on what Neo mentioned, Philip and I will be taking over the online help after you roll off next year. Would it be possible to schedule one or two meetings after the Thanksgiving break so we can go over more details regarding the online help?
-
-For example, we’d like to review any tasks related to the online help, as well as learn some of the troubleshooting methods you’ve been using.
-
-Thank you!
+I experienced a DataStage deployment failure today and was looking for potential solutions in the TFS wiki. I noticed there’s an unfinished DataStage deployment page. I just wanted to check whether you are still working on it, or if there’s an existing SharePoint wiki that covers the DataStage deployment troubleshooting methods.
