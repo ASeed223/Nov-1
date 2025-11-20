@@ -1,4 +1,7 @@
-Good morning everyone,
-Yesterday I attended a few meetings for about half the day. For the rest of the time, I worked on the TST3 and DEV3 deployments as usual and focused on the TST2B release for 26.3. Thanks to Tawheed for going over the Pega hotfix with me. Overall, the deployment went smoothly. Only one deployment issue occurred with the Datastage internal deployment error, and we’ve already created a task for the platform team to investigate.
+Hi Neo,
 
-As for today, I will continue working on the tasks on my board. That’s my plan for today.
+My vacation schedule will be from 12/29 to 1/2. Since 1/1 is a holiday, I will be taking 4 days off, totaling 32 hours.
+
+I’d like to use my Professional Development Day and Personal Holiday first to cover 3 of those days, and then use 8 hours of Furlough time for the remaining day. Please let me know if this arrangement complies with the policy.
+
+Thank you.
