@@ -1,3 +1,7 @@
-Good morning everyone, yesterday besides working on the Pega deployments to TST3 and DEV3, I also spent some time helping create the new EDR Document Builder repo. Later in the afternoon, I helped one of the FTB staff members by providing some potential solutions to resolve an issue they were having with cloning a repo, and I also followed up on a request regarding their team not receiving the email notifications for the Codestream 2 deployment.
+Hi Tawheed,
 
-As for today, I will continue working on the tasks on my board and attend a few other meetings. That’s my plan for today.
+Based on what Neo mentioned, Philip and I will be taking over the online help after you roll off next year. Would it be possible to schedule one or two meetings after the Thanksgiving break so we can go over more details regarding the online help?
+
+For example, we’d like to review any tasks related to the online help, as well as learn some of the troubleshooting methods you’ve been using.
+
+Thank you!
