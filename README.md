@@ -1,3 +1,7 @@
-Good morning everyone, just a quick update from me. In addition to continuing the script work, I also focused on the OnlineHelp knowledge transfer with Tawheed and Philip. Thanks to Tawheed for the detailed explanations and for answering all my questions. I also completed a few Pega ZIP deployments before logging off.
+Hi Tawheed, would it be possible to add the servers involved in the Ansible tasks to the Online Help wiki? For example, in the onlineHelpDeploy.yml, the unzip task uses the lxnp102 server.
 
-As for today, I have a few meetings to attend, and I’ll also spend some time reviewing the OnlineHelp wiki and providing feedback to help improve it if I get the chance. That’s my plan for today.
+Also, could you include the shared folder path that you showed us during today’s meeting?
+
+I believe having this information documented in the wiki will be very helpful for us in future troubleshooting and maintenance.
+
+Thanks!
