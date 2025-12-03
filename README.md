@@ -1,7 +1,51 @@
-Hi Tawheed, would it be possible to add the servers involved in the Ansible tasks to the Online Help wiki? For example, in the onlineHelpDeploy.yml, the unzip task uses the lxnp102 server.
+name: 'EDR2_IVR_Nexus_IQ-Scan_Report $(date:yyyyMMdd)$(rev:.r)'
 
-Also, could you include the shared folder path that you showed us during today’s meeting?
+trigger: none
+pr: none
 
-I believe having this information documented in the wiki will be very helpful for us in future troubleshooting and maintenance.
+schedules:
+  - cron: "25 8 * * 0"
+    always: true
+    branches:
+      include:
+        - "master"
+    displayName: "Weekly Sunday Midnight Scan (01:25 AM)"
 
-Thanks!
+resources:
+  repositories:
+    - repository: IVR Rewrite Project
+      type: git
+      name: IVR Rewrite Project
+      ref: master
+    - repository: IVR_Rewrite_Resources
+      type: git
+      name: IVR_Rewrite_Resources
+      ref: master
+
+pool:
+  name: 'Java-Maven'
+
+steps:
+  # Check out both repositories
+  - checkout: IVR Rewrite Project
+    clean: true
+  - checkout: IVR_Rewrite_Resources
+    clean: true
+
+  # Use Java 17
+  - task: JavaToolInstaller@0
+    displayName: 'Use Java 17'
+    inputs:
+      versionSpec: 17
+      jdkArchitectureOption: x64
+      jdkSourceOption: PreInstalled
+
+  # Nexus IQ Scan
+  - task: SonatypeIntegrations.nexus-iq-azure-extension.nexus-iq-azure-pipeline-task.NexusIqPipelineTask@2
+    displayName: 'Nexus IQ Scan'
+    inputs:
+      nexusIqService: 'Nexus IQ Server'
+      applicationId: 'EDR2_IVR_Pipeline'
+      stage: build
+      scanTargets: '**/* !**/node_modules/** !**/*.js !**/*.css !**/*.json !**/*.map'
+      scanPipelineWorkspace: true
