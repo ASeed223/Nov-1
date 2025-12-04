@@ -101,6 +101,42 @@ resources:
       type: git
       name: EDR-Withholding-Return-Persistence
       ref: develop/25.4.0
+    - repository: EDR-Invariant-Legacy-Archive
+      type: git
+      name: EDR-Invariant-Legacy-Archive
+      ref: develop/26.1.0
+    - repository: EDR-Invariant-Legacy-Conversion
+      type: git
+      name: EDR-Invariant-Legacy-Conversion
+      ref: develop/26.1.0
+    - repository: IVR Mindful CallBack
+      type: git
+      name: IVR Mindful CallBack
+      ref: develop/26.1.0
+    - repository: EDR-Knowledge-Library
+      type: git
+      name: EDR-Knowledge-Library
+      ref: develop/26.1.0
+    - repository: EDR-Online-Help
+      type: git
+      name: EDR-Online-Help
+      ref: develop/26.1.0
+    - repository: EDR-Open-Case-Doc
+      type: git
+      name: EDR-Open-Case-Doc
+      ref: develop/26.1.0
+    - repository: EDR-Batch-Client
+      type: git
+      name: EDR-Batch-Client
+      ref: develop/26.1.0
+    - repository: EDR-Case-Archive
+      type: git
+      name: EDR-Case-Archive
+      ref: develop/26.1.0
+    - repository: EDR-Case-Document-API
+      type: git
+      name: EDR-Case-Document-API
+      ref: develop/26.1.0
 
 pool:
   name: 'Java-Maven'
@@ -150,6 +186,24 @@ steps:
   - checkout: EDR-Withholding-Return-Batch
     clean: true
   - checkout: EDR-Withholding-Return-Persistence
+    clean: true
+  - checkout: EDR-Invariant-Legacy-Archive
+    clean: true
+  - checkout: EDR-Invariant-Legacy-Conversion
+    clean: true
+  - checkout: IVR Mindful CallBack
+    clean: true
+  - checkout: EDR-Knowledge-Library
+    clean: true
+  - checkout: EDR-Online-Help
+    clean: true
+  - checkout: EDR-Open-Case-Doc
+    clean: true
+  - checkout: EDR-Batch-Client
+    clean: true
+  - checkout: EDR-Case-Archive
+    clean: true
+  - checkout: EDR-Case-Document-API
     clean: true
 
   # Use Java 17
