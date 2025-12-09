@@ -1,4 +1,1 @@
-Good morning everyone.
-Yesterday, besides attending meetings, I focused on the IQ scan pipeline task for several EDR2 repositories. While testing the script, I ran into an issue where a file name contained a Unicode dash character, which caused the pipeline to fail. I created a separate task to investigate this error further.
-
-For today, I’ll continue working on that investigation and also look for any additional tasks where I can contribute.
+Good morning everyone, just a quick update from me. Yesterday, after returning from my appointment, I found out that my jumpbox was down and I wasn’t able to access it. I spent a couple of hours contacting the IT service desk, and I’m still waiting for them to send someone to check my jumpbox and bring it back online. Besides that, I continued working on the scan pipeline and completed a few Pega ZIP deployments to TST3 and DEV3 before logging off. As for today, I have a couple of meetings to attend and will continue focusing on the tasks on my board. That’s my plan for the day.
