@@ -1,102 +1,100 @@
-<?xml version="1.0"?>
-<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "https://jetty.org/configure_10_0.dtd">
-
-<Configure id="Server" class="org.eclipse.jetty.server.Server">
-
-  <New id="httpsConfig" class="org.eclipse.jetty.server.HttpConfiguration">
-    <Arg><Ref refid="baseHttpConfig"/></Arg>
-    <Set name="securePort"><Property name="application-port-ssl" /></Set>
-    <Call name="addCustomizer">
-      <Arg>
-        <New id="secureRequestCustomizer" class="org.eclipse.jetty.server.SecureRequestCustomizer">
-          <Set name="stsMaxAge"><Property name="jetty.https.stsMaxAge" default="7776000"/></Set>
-          <Set name="stsIncludeSubDomains"><Property name="jetty.https.stsIncludeSubDomains" default="false"/></Set>
-          <Set name="sniHostCheck"><Property name="jetty.https.sniHostCheck" default="false"/></Set>
-        </New>
-      </Arg>
-    </Call>
-  </New>
-
-  <New id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
-    <Set name="Provider" property="jetty.sslContext.provider" />
-    <Set name="KeyStorePath">
-      <Call name="resolvePath" class="org.eclipse.jetty.xml.XmlConfiguration">
-        <Arg><Property name="ssl.etc"/></Arg>
-        <Arg><Property name="jetty.sslContext.keyStorePath" default="nexus01.jks" /></Arg>
-      </Call>
-    </Set>
-    <Set name="KeyStorePassword">OBF:123qW</Set>
-    
-    <Set name="KeyStoreType" property="jetty.sslContext.keyStoreType" />
-    <Set name="KeyStoreProvider" property="jetty.sslContext.keyStoreProvider" />
-    
-    <Set name="KeyManagerPassword">OBF:123qW</Set>
-    
-    <Set name="TrustStorePath">
-      <Call name="resolvePath" class="org.eclipse.jetty.xml.XmlConfiguration">
-        <Arg><Property name="ssl.etc"/></Arg>
-        <Arg><Property name="jetty.sslContext.keyStorePath" default="nexus01.jks" /></Arg>
-      </Call>
-    </Set>
-    
-    <Set name="TrustStorePassword" property="jetty.sslContext.trustStorePassword">OBF:123qW#</Set>
-    
-    <Set name="TrustStoreType" property="jetty.sslContext.trustStoreType" />
-    <Set name="TrustStoreProvider" property="jetty.sslContext.trustStoreProvider" />
-    <Set name="EndpointIdentificationAlgorithm" property="jetty.sslContext.endpointIdentificationAlgorithm" />
-    <Set name="NeedClientAuth" property="jetty.sslContext.needClientAuth" />
-    <Set name="WantClientAuth" property="jetty.sslContext.wantClientAuth" />
-    <Set name="useCipherSuitesOrder" property="jetty.sslContext.useCipherSuitesOrder" />
-    <Set name="sslSessionCacheSize" property="jetty.sslContext.sslSessionCacheSize" />
-    <Set name="sslSessionTimeout" property="jetty.sslContext.sslSessionTimeout" />
-    <Set name="RenegotiationAllowed" property="jetty.sslContext.renegotiationAllowed" />
-    <Set name="RenegotiationLimit" property="jetty.sslContext.renegotiationLimit" />
-    <Set name="SniRequired" property="jetty.sslContext.sniRequired" />
-    
-    <Set name="IncludeProtocols">
-      <Array type="java.lang.String">
-        <Item>TLSv1.2</Item>
-      </Array>
-    </Set>
-  </New>
-
-  <Call name="addConnector">
-    <Arg>
-      <New id="httpsConnector" class="org.eclipse.jetty.server.ServerConnector">
-        <Arg name="server"><Ref refid="Server" /></Arg>
-        <Arg name="acceptors" type="int"><Property name="jetty.ssl.acceptors" default="1"/></Arg>
-        <Arg name="selectors" type="int"><Property name="jetty.ssl.selectors" default="-1"/></Arg>
-        <Arg name="factories">
-          <Array type="org.eclipse.jetty.server.ConnectionFactory">
-            <Item>
-              <New class="org.sonatype.nexus.bootstrap.jetty.InstrumentedConnectionFactory">
-                <Arg>
-                  <New class="org.eclipse.jetty.server.SslConnectionFactory">
-                    <Arg name="next">http/1.1</Arg>
-                    <Arg name="sslContextFactory"><Ref refid="sslContextFactory"/></Arg>
-                  </New>
-                </Arg>
-              </New>
-            </Item>
-            <Item>
-              <New class="org.eclipse.jetty.server.HttpConnectionFactory">
-                <Arg name="config"><Ref refid="httpsConfig" /></Arg>
-              </New>
-            </Item>
-          </Array>
-        </Arg>
-        <Set name="host"><Property name="application-host" /></Set>
-        <Set name="port"><Property name="application-port-ssl" /></Set>
-        <Set name="idleTimeout"><Property name="jetty.ssl.idleTimeout" default="30000"/></Set>
-        <Set name="acceptorPriorityDelta" property="jetty.ssl.acceptorPriorityDelta"/>
-        <Set name="acceptQueueSize" property="jetty.ssl.acceptQueueSize"/>
-        <Set name="reuseAddress"><Property name="jetty.ssl.reuseAddress" default="true"/></Set>
-        <Set name="reusePort"><Property name="jetty.ssl.reusePort" default="false"/></Set>
-        <Set name="acceptedTcpNoDelay"><Property name="jetty.ssl.acceptedTcpNoDelay" default="true"/></Set>
-        <Set name="acceptedReceiveBufferSize" property="jetty.ssl.acceptedReceiveBufferSize" />
-        <Set name="acceptedSendBufferSize" property="jetty.ssl.acceptedSendBufferSize" />
-      </New>
-    </Arg>
-  </Call>
-
-</Configure>
+[cmdeploy@lxpd208 ~]$ /opt/nexus/nexus/bin/nexus run
+2025-12-10 15:25:08,822-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.e                                                                                                                                                                                                                                             ntrypoint.configuration.NexusProperties - nexus.properties: {ssl.etc=/opt/nexus/                                                                                                                                                                                                                                             sonatype-work/nexus3/etc/ssl, nexus-edition=nexus-pro-edition, java.specificatio                                                                                                                                                                                                                                             n.version=17, nexus-db-feature=nexus-datastore-mybatis, sun.jnu.encoding=UTF-8,                                                                                                                                                                                                                                              nexus.view.exhaustForAgents=Apache-Maven.*|libwww-perl.*, sun.arch.data.model=64                                                                                                                                                                                                                                             , java.vendor.url=https://adoptium.net/, nexus.session.enabled=false, nexus.scri                                                                                                                                                                                                                                             pts.allowCreation=true, sun.boot.library.path=/opt/nexus/nexus-3.86.2-01/jdk/tem                                                                                                                                                                                                                                             urin_17.0.13_11_linux_x86_64/jdk-17.0.13+11/lib, sun.java.command=/opt/nexus/nex                                                                                                                                                                                                                                             us-3.86.2-01/bin/sonatype-nexus-repository-3.86.2-01.jar, logging.register-shutd                                                                                                                                                                                                                                             own-hook=false, jdk.debug=release, sun.stderr.encoding=UTF-8, java.specification                                                                                                                                                                                                                                             .vendor=Oracle Corporation, java.version.date=2024-10-15, java.home=/opt/nexus/n                                                                                                                                                                                                                                             exus-3.86.2-01/jdk/temurin_17.0.13_11_linux_x86_64/jdk-17.0.13+11, logging.confi                                                                                                                                                                                                                                             g=etc/logback/logback.xml, nexus-features=nexus-pro-feature, file.separator=/, j                                                                                                                                                                                                                                             ava.vm.compressedOopsMode=Zero based, line.separator=
+, sun.stdout.encoding=UTF-8, nexus.onboarding.enabled=true, java.vm.specificatio                                                                                                                                                                                                                                             n.vendor=Oracle Corporation, java.specification.name=Java Platform API Specifica                                                                                                                                                                                                                                             tion, spring.config.location=etc/default-application.properties, application-hos                                                                                                                                                                                                                                             t=0.0.0.0, jdk.tls.ephemeralDHKeySize=2048, nexus-context-path=/, java.util.logg                                                                                                                                                                                                                                             ing.config.file=etc/spring/java.util.logging.properties, java.protocol.handler.p                                                                                                                                                                                                                                             kgs=org.springframework.boot.loader.net.protocol, sun.management.compiler=HotSpo                                                                                                                                                                                                                                             t 64-Bit Tiered Compilers, karaf.home=., java.runtime.version=17.0.13+11, user.n                                                                                                                                                                                                                                             ame=cmdeploy, nexus.jwt.enabled=true, nexus.datastore.clustered.enabled=true, fi                                                                                                                                                                                                                                             le.encoding=UTF-8, java.vendor.version=Temurin-17.0.13+11, java.io.tmpdir=/opt/n                                                                                                                                                                                                                                             exus/sonatype-work/nexus3/tmp, logback.etc=/opt/nexus/nexus-3.86.2-01/etc/logbac                                                                                                                                                                                                                                             k, java.version=17.0.13, fabric.etc=/opt/nexus/nexus-3.86.2-01/etc/fabric, java.                                                                                                                                                                                                                                             vm.specification.name=Java Virtual Machine Specification, PID=1713444, nexus.cha                                                                                                                                                                                                                                             nge.repo.blobstore.task.enabled=true, CONSOLE_LOG_CHARSET=UTF-8, native.encoding                                                                                                                                                                                                                                             =UTF-8, java.library.path=/opt/CA/DSM/caf/lib:/opt/CA/SharedComponents/lib:/usr/                                                                                                                                                                                                                                             java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib, java.vendor=Eclipse Adoptium,                                                                                                                                                                                                                                              java.specification.maintenance.version=1, karaf.base=/opt/nexus/nexus-3.86.2-01                                                                                                                                                                                                                                             , sun.io.unicode.encoding=UnicodeLittle, karaf.log=/opt/nexus/sonatype-work/nexu                                                                                                                                                                                                                                             s3/log, karaf.startLocalConsole=false, java.class.path=/opt/nexus/nexus-3.86.2-0                                                                                                                                                                                                                                             1/bin/sonatype-nexus-repository-3.86.2-01.jar, karaf.etc=/opt/nexus/nexus-3.86.2                                                                                                                                                                                                                                             -01/etc/karaf, nexus.assetdownloads.enabled=true, java.vm.vendor=Eclipse Adoptiu                                                                                                                                                                                                                                             m, nexus.installer.type=linux-x86-64, user.timezone=America/Los_Angeles, org.jbo                                                                                                                                                                                                                                             ss.logging.provider=slf4j, application-port=8081, java.vm.specification.version=                                                                                                                                                                                                                                             17, os.name=Linux, sun.java.launcher=SUN_STANDARD, user.country=US, karaf.data=/                                                                                                                                                                                                                                             opt/nexus/sonatype-work/nexus3, nexus.licenseFile=/home/cmdeploy/license/a617d2d                                                                                                                                                                                                                                             ecad9bce4fbd4f955ba2d10e86298c7c7.lic, karaf.instances=/opt/nexus/sonatype-work/                                                                                                                                                                                                                                             nexus3/instances, sun.cpu.endian=little, user.home=/home/cmdeploy, user.language                                                                                                                                                                                                                                             =en, nexus.elasticsearch.enabled=false, jetty.etc=/opt/nexus/nexus-3.86.2-01/etc                                                                                                                                                                                                                                             /jetty, FILE_LOG_CHARSET=UTF-8, java.awt.headless=true, nexus.datastore.sql.cach                                                                                                                                                                                                                                             e.enabled=true, nexus.http.denyframe.enabled=true, java.net.preferIPv4Stack=true                                                                                                                                                                                                                                             , nexus.datastore.enabled=true, path.separator=:, os.version=5.14.0-570.60.1.el9                                                                                                                                                                                                                                             _6.x86_64, java.runtime.name=OpenJDK Runtime Environment, nexus-args=/opt/nexus/                                                                                                                                                                                                                                             nexus-3.86.2-01/etc/jetty/jetty.xml,/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-h                                                                                                                                                                                                                                             ttps.xml,/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-requestlog.xml, nexus.quartz                                                                                                                                                                                                                                             .jobstore.jdbc=true, java.vm.name=OpenJDK 64-Bit Server VM, nexus.datastore.blob                                                                                                                                                                                                                                             store.metrics.enabled=true, java.vendor.url.bug=https://github.com/adoptium/adop                                                                                                                                                                                                                                             tium-support/issues, org.sonatype.nexus.repository.httpbridge.internal.HttpBridg                                                                                                                                                                                                                                             eModule.legacy=true, user.dir=/opt/nexus/nexus-3.86.2-01, os.arch=amd64, nexus.d                                                                                                                                                                                                                                             atastore.table.search.enabled=true, java.vm.info=mixed mode, sharing, java.vm.ve                                                                                                                                                                                                                                             rsion=17.0.13+11, application-port-ssl=8443, java.class.version=61.0}
+2025-12-10 15:25:08,830-0800 INFO  [main] *SYSTEM com.sonatype.nexus.bootstrap.e                                                                                                                                                                                                                                             ntrypoint.pro.SonatypeNexusRepositoryApplication - Starting SonatypeNexusReposit                                                                                                                                                                                                                                             oryApplication v3.86.2-01 using Java 17.0.13 with PID 1713444 (/opt/nexus/nexus-                                                                                                                                                                                                                                             3.86.2-01/bin/sonatype-nexus-repository-3.86.2-01.jar started by cmdeploy in /op                                                                                                                                                                                                                                             t/nexus/nexus-3.86.2-01)
+2025-12-10 15:25:08,831-0800 INFO  [main] *SYSTEM com.sonatype.nexus.bootstrap.e                                                                                                                                                                                                                                             ntrypoint.pro.SonatypeNexusRepositoryApplication - No active profile set, fallin                                                                                                                                                                                                                                             g back to 1 default profile: "default"
+2025-12-10 15:25:10,500-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.e                                                                                                                                                                                                                                             ntrypoint.ApplicationLauncher - Starting nexus with edition PRO
+2025-12-10 15:25:10,736-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.e                                                                                                                                                                                                                                             ntrypoint.SpringComponentScan - Scanning for components in packages: [org.sonaty                                                                                                                                                                                                                                             pe.nexus, com.sonatype.nexus]
+2025-12-10 15:25:22,434-0800 INFO  [main] *SYSTEM org.sonatype.nexus.quartz.internal.QuartzSchedulerProvider - Thread-pool size: 20, Thread-pool priority: 5
+2025-12-10 15:25:22,946-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.log.overrides.datastore.DatastoreLoggerOverrides - File: /opt/nexus/sonatype-work/nexus3/etc/logback/logback-overrides.xml
+2025-12-10 15:25:22,950-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.log.overrides.file.LogbackLoggerOverrides - File: /opt/nexus/sonatype-work/nexus3/etc/logback/logback-overrides.xml
+2025-12-10 15:25:22,994-0800 INFO  [main] *SYSTEM org.apache.shiro.nexus.NexusWebSessionManager - Global session timeout: 1800000 ms
+2025-12-10 15:25:22,995-0800 INFO  [main] *SYSTEM org.apache.shiro.nexus.NexusWebSessionManager - Session-cookie prototype: name=NXSESSIONID, secure=true
+2025-12-10 15:25:24,014-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle - UI plugin descriptors:
+2025-12-10 15:25:24,014-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-rapture
+2025-12-10 15:25:24,014-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-coreui-plugin
+2025-12-10 15:25:24,014-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle - ExtJS UI plugin descriptors:
+2025-12-10 15:25:24,014-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-rapture
+2025-12-10 15:25:24,014-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-rutauth-plugin
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-proximanova-plugin
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-coreui-plugin
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-proui-plugin
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-cargo
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-composer
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-onboarding-plugin
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-maven
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-docker
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-rubygems
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-npm
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-nuget
+2025-12-10 15:25:24,015-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-pypi
+2025-12-10 15:25:24,016-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-saml-plugin
+2025-12-10 15:25:24,016-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-analytics-plugin
+2025-12-10 15:25:24,035-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.webresources.WebResourceServlet - Max-age: 30 days (2592000 seconds)
+2025-12-10 15:25:24,046-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.wonderland.DownloadServiceImpl - Downloads directory: /opt/nexus/sonatype-work/nexus3/downloads
+2025-12-10 15:25:24,262-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.atlas.SupportZipGeneratorImpl - Maximum included file size: 30 megabytes
+2025-12-10 15:25:24,263-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.atlas.SupportZipGeneratorImpl - Maximum ZIP file size: 50 megabytes
+2025-12-10 15:25:24,700-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.script.ScriptEngineManagerProvider - Detected 1 engine-factories
+2025-12-10 15:25:24,701-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.script.ScriptEngineManagerProvider - Engine-factory: Groovy Scripting Engine v2.0; language=Groovy, version=3.0.19, names=[groovy, Groovy], mime-types=[application/x-groovy], extensions=[groovy]
+2025-12-10 15:25:24,701-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.script.ScriptEngineManagerProvider - Default language: groovy
+2025-12-10 15:25:25,045-0800 INFO  [main] *SYSTEM org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2025-12-10 15:25:26,324-0800 INFO  [main] *SYSTEM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor - Inconsistent constructor declaration on bean with name 'maliciousRiskOnDiskAnalytics': single autowire-marked constructor flagged as optional - this constructor is effectively required since there is no default constructor to fall back to: public com.sonatype.analytics.internal.MaliciousRiskOnDiskAnalytics(com.sonatype.nexus.risk.visualizer.MaliciousRiskService,java.lang.Boolean)
+2025-12-10 15:25:26,535-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Starting jetty
+2025-12-10 15:25:26,547-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Applying configuration: file:/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty.xml
+2025-12-10 15:25:26,881-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Applying configuration: file:/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-https.xml
+2025-12-10 15:25:26,946-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Applying configuration: file:/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-requestlog.xml
+2025-12-10 15:25:27,000-0800 INFO  [jetty-main-1] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Starting: oejs.Server@16aadc7f{STOPPED}[12.0.17,sto=5000]
+2025-12-10 15:25:27,005-0800 INFO  [jetty-main-1] *SYSTEM org.eclipse.jetty.server.Server - jetty-12.0.17; built: 2025-03-03T13:15:05.903Z; git: 14d19c268e4cb09afc312b5255a4cbb7a95c5cb6; jvm 17.0.13+11
+2025-12-10 15:25:27,028-0800 ERROR [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Start failed
+java.io.IOException: Failed to bind to /0.0.0.0:8443
+        at org.eclipse.jetty.server.ServerConnector.openAcceptChannel(ServerConnector.java:349)
+        at org.eclipse.jetty.server.ServerConnector.open(ServerConnector.java:313)
+        at org.eclipse.jetty.server.Server.lambda$doStart$0(Server.java:569)
+        at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+        at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+        at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+        at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:992)
+        at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+        at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+        at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+        at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+        at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+        at org.eclipse.jetty.server.Server.doStart(Server.java:565)
+        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:93)
+        at org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer$JettyMainThread.run(JettyServer.java:374)
+Caused by: java.net.BindException: Address already in use
+        at java.base/sun.nio.ch.Net.bind0(Native Method)
+        at java.base/sun.nio.ch.Net.bind(Net.java:555)
+        at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
+        at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
+        at org.eclipse.jetty.server.ServerConnector.openAcceptChannel(ServerConnector.java:344)
+        ... 15 common frames omitted
+2025-12-10 15:25:27,028-0800 ERROR [jetty-main-1] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Failed to start
+java.io.IOException: Failed to bind to /0.0.0.0:8443
+        at org.eclipse.jetty.server.ServerConnector.openAcceptChannel(ServerConnector.java:349)
+        at org.eclipse.jetty.server.ServerConnector.open(ServerConnector.java:313)
+        at org.eclipse.jetty.server.Server.lambda$doStart$0(Server.java:569)
+        at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+        at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+        at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+        at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:992)
+        at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+        at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+        at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+        at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+        at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+        at org.eclipse.jetty.server.Server.doStart(Server.java:565)
+        at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:93)
+        at org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer$JettyMainThread.run(JettyServer.java:374)
+Caused by: java.net.BindException: Address already in use
+        at java.base/sun.nio.ch.Net.bind0(Native Method)
+        at java.base/sun.nio.ch.Net.bind(Net.java:555)
+        at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
+        at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
+        at org.eclipse.jetty.server.ServerConnector.openAcceptChannel(ServerConnector.java:344)
+        ... 15 common frames omitted
+2025-12-10 15:25:27,034-0800 WARN  [main] *SYSTEM org.springframework.context.annotation.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'org.sonatype.nexus.bootstrap.jetty.ManagedJetty'
+2025-12-10 15:25:27,052-0800 WARN  [main] *SYSTEM org.springframework.beans.factory.support.DisposableBeanAdapter - Custom destroy method 'shutdown' on bean with name 'org.sonatype.nexus.thread.DatabaseStatusDelayedExecutor' propagated an exception: java.lang.NoClassDefFoundError: org/aspectj/runtime/reflect/JoinPointImpl
+2025-12-10 15:25:27,111-0800 WARN  [main] *SYSTEM org.springframework.context.annotation.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: java.lang.RuntimeException: Failed to configure application
