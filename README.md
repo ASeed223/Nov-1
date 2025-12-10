@@ -1,42 +1,52 @@
--Xms6G
--Xmx6G
--XX:MaxDirectMemorySize=15530M
--XX:+UnlockDiagnosticVMOptions
--XX:+LogVMOutput
--XX:LogFile=/opt/nexus/sonatype-work/nexus3/log/jvm.log
--XX:-OmitStackTraceInFastThrow
--Djava.net.preferIPv4Stack=true
--Dkaraf.home=.
--Dkaraf.base=.
--Djava.util.logging.config.file=etc/spring/java.util.logging.properties
--Dkaraf.data=/opt/nexus/sonatype-work/nexus3
--Dkaraf.log=/opt/nexus/sonatype-work/nexus3/log
--Djava.io.tmpdir=/opt/nexus/sonatype-work/nexus3/tmp
--Dkaraf.startLocalConsole=false
--Djdk.tls.ephemeralDHKeySize=2048
--Dfile.encoding=UTF-8
-#
-# additional vmoptions needed for Java9+
-#
---add-reads=java.xml=java.logging
---add-opens
-java.base/java.security=ALL-UNNAMED
---add-opens
-java.base/java.net=ALL-UNNAMED
---add-opens
-java.base/java.lang=ALL-UNNAMED
---add-opens
-java.base/java.util=ALL-UNNAMED
---add-opens
-java.naming/javax.naming.spi=ALL-UNNAMED
---add-opens
-java.rmi/sun.rmi.transport.tcp=ALL-UNNAMED
---add-exports=java.base/sun.net.www.protocol.http=ALL-UNNAMED
---add-exports=java.base/sun.net.www.protocol.https=ALL-UNNAMED
---add-exports=java.base/sun.net.www.protocol.jar=ALL-UNNAMED
---add-exports=jdk.xml.dom/org.w3c.dom.html=ALL-UNNAMED
---add-exports=jdk.naming.rmi/com.sun.jndi.url.rmi=ALL-UNNAMED
---add-exports=java.security.sasl/com.sun.security.sasl=ALL-UNNAMED
---add-exports=java.base/sun.security.x509=ALL-UNNAMED
---add-exports=java.base/sun.security.rsa=ALL-UNNAMED
---add-exports=java.base/sun.security.pkcs=ALL-UNNAMED
+[cmdeploy@lxpd208 ~]$ /opt/nexus/nexus/bin/nexus run
+OpenJDK 64-Bit Server VM warning: Cannot open file /opt/nexus/nexus3/log/jvm.log due to No such file or directory
+
+Warning:  Cannot open log file: /opt/nexus/nexus3/log/jvm.log
+Warning:  Forcing option -XX:LogFile=/tmp/jvm.log
+WARNING: package org.apache.karaf.specs.locator not in java.base
+2025-12-10 15:02:51,544-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.configuration.NexusProperties - nexus.properties: {ssl.etc=/opt/nexus/sonatype-work/nexus3/etc/ssl, nexus-edition=nexus-pro-edition, java.specification.version=17, nexus-db-feature=nexus-datastore-mybatis, javax.net.ssl.trustStorePassword=edrcmadm, sun.jnu.encoding=UTF-8, nexus.view.exhaustForAgents=Apache-Maven.*|libwww-perl.*, sun.arch.data.model=64, java.vendor.url=https://adoptium.net/, nexus.session.enabled=false, nexus.scripts.allowCreation=true, sun.boot.library.path=/opt/nexus/nexus-3.86.2-01/jdk/temurin_17.0.13_11_linux_x86_64/jdk-17.0.13+11/lib, sun.java.command=/opt/nexus/nexus-3.86.2-01/bin/sonatype-nexus-repository-3.86.2-01.jar, logging.register-shutdown-hook=false, jdk.debug=release, sun.stderr.encoding=UTF-8, java.specification.vendor=Oracle Corporation, java.version.date=2024-10-15, java.home=/opt/nexus/nexus-3.86.2-01/jdk/temurin_17.0.13_11_linux_x86_64/jdk-17.0.13+11, logging.config=etc/logback/logback.xml, nexus-features=nexus-pro-feature, file.separator=/, java.vm.compressedOopsMode=Zero based, line.separator=
+, sun.stdout.encoding=UTF-8, nexus.onboarding.enabled=true, java.vm.specification.vendor=Oracle Corporation, java.specification.name=Java Platform API Specification, spring.config.location=etc/default-application.properties, application-host=0.0.0.0, javax.net.ssl.trustStore=/opt/nexus/ssl/nexus01.jks, jdk.tls.ephemeralDHKeySize=2048, nexus-context-path=/, java.util.logging.config.file=etc/karaf/java.util.logging.properties, java.protocol.handler.pkgs=org.springframework.boot.loader.net.protocol, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, karaf.home=., java.runtime.version=17.0.13+11, user.name=cmdeploy, nexus.jwt.enabled=true, nexus.datastore.clustered.enabled=true, file.encoding=UTF-8, java.vendor.version=Temurin-17.0.13+11, java.io.tmpdir=/opt/nexus/sonatype-work/nexus3/tmp, logback.etc=/opt/nexus/nexus-3.86.2-01/etc/logback, java.version=17.0.13, fabric.etc=/opt/nexus/nexus-3.86.2-01/etc/fabric, java.vm.specification.name=Java Virtual Machine Specification, PID=1712680, nexus.change.repo.blobstore.task.enabled=true, CONSOLE_LOG_CHARSET=UTF-8, native.encoding=UTF-8, java.library.path=/opt/CA/DSM/caf/lib:/opt/CA/SharedComponents/lib:/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib, java.vendor=Eclipse Adoptium, java.specification.maintenance.version=1, karaf.base=/opt/nexus/nexus-3.86.2-01, sun.io.unicode.encoding=UnicodeLittle, karaf.log=/opt/nexus/sonatype-work/nexus3/log, karaf.startLocalConsole=false, java.class.path=/opt/nexus/nexus-3.86.2-01/bin/sonatype-nexus-repository-3.86.2-01.jar, karaf.etc=/opt/nexus/nexus-3.86.2-01/etc/karaf, nexus.assetdownloads.enabled=true, java.vm.vendor=Eclipse Adoptium, nexus.installer.type=linux-x86-64, user.timezone=America/Los_Angeles, org.jboss.logging.provider=slf4j, application-port=8081, java.vm.specification.version=17, os.name=Linux, sun.java.launcher=SUN_STANDARD, user.country=US, karaf.data=/opt/nexus/sonatype-work/nexus3, nexus.licenseFile=/home/cmdeploy/license/a617d2decad9bce4fbd4f955ba2d10e86298c7c7.lic, karaf.instances=/opt/nexus/sonatype-work/nexus3/instances, sun.cpu.endian=little, user.home=/home/cmdeploy, user.language=en, nexus.elasticsearch.enabled=false, javax.net.ssl.keyStorePassword=edrcmadm, jetty.etc=/opt/nexus/nexus-3.86.2-01/etc/jetty, FILE_LOG_CHARSET=UTF-8, java.awt.headless=true, nexus.datastore.sql.cache.enabled=true, nexus.http.denyframe.enabled=true, java.net.preferIPv4Stack=true, nexus.datastore.enabled=true, path.separator=:, os.version=5.14.0-570.60.1.el9_6.x86_64, java.runtime.name=OpenJDK Runtime Environment, nexus-args=/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty.xml,/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-https.xml,/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-requestlog.xml, nexus.quartz.jobstore.jdbc=true, java.vm.name=OpenJDK 64-Bit Server VM, nexus.datastore.blobstore.metrics.enabled=true, javax.net.ssl.keyStore=/opt/nexus/ssl/nexus01.jks, java.vendor.url.bug=https://github.com/adoptium/adoptium-support/issues, org.sonatype.nexus.repository.httpbridge.internal.HttpBridgeModule.legacy=true, user.dir=/opt/nexus/nexus-3.86.2-01, os.arch=amd64, nexus.datastore.table.search.enabled=true, java.vm.info=mixed mode, java.vm.version=17.0.13+11, application-port-ssl=8443, java.class.version=61.0}
+2025-12-10 15:02:51,554-0800 INFO  [main] *SYSTEM com.sonatype.nexus.bootstrap.entrypoint.pro.SonatypeNexusRepositoryApplication - Starting SonatypeNexusRepositoryApplication v3.86.2-01 using Java 17.0.13 with PID 1712680 (/opt/nexus/nexus-3.86.2-01/bin/sonatype-nexus-repository-3.86.2-01.jar started by cmdeploy in /opt/nexus/nexus-3.86.2-01)
+2025-12-10 15:02:51,555-0800 INFO  [main] *SYSTEM com.sonatype.nexus.bootstrap.entrypoint.pro.SonatypeNexusRepositoryApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-10 15:02:53,212-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.ApplicationLauncher - Starting nexus with edition PRO
+2025-12-10 15:02:53,492-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.SpringComponentScan - Scanning for components in packages: [org.sonatype.nexus, com.sonatype.nexus]
+2025-12-10 15:03:05,498-0800 INFO  [main] *SYSTEM org.sonatype.nexus.quartz.internal.QuartzSchedulerProvider - Thread-pool size: 20, Thread-pool priority: 5
+2025-12-10 15:03:06,019-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.log.overrides.datastore.DatastoreLoggerOverrides - File: /opt/nexus/sonatype-work/nexus3/etc/logback/logback-overrides.xml
+2025-12-10 15:03:06,023-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.log.overrides.file.LogbackLoggerOverrides - File: /opt/nexus/sonatype-work/nexus3/etc/logback/logback-overrides.xml
+2025-12-10 15:03:06,061-0800 INFO  [main] *SYSTEM org.apache.shiro.nexus.NexusWebSessionManager - Global session timeout: 1800000 ms
+2025-12-10 15:03:06,062-0800 INFO  [main] *SYSTEM org.apache.shiro.nexus.NexusWebSessionManager - Session-cookie prototype: name=NXSESSIONID, secure=true
+2025-12-10 15:03:07,080-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle - UI plugin descriptors:
+2025-12-10 15:03:07,081-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-rapture
+2025-12-10 15:03:07,081-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-coreui-plugin
+2025-12-10 15:03:07,081-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle - ExtJS UI plugin descriptors:
+2025-12-10 15:03:07,081-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-rapture
+2025-12-10 15:03:07,081-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-rutauth-plugin
+2025-12-10 15:03:07,082-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-proximanova-plugin
+2025-12-10 15:03:07,082-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-coreui-plugin
+2025-12-10 15:03:07,082-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-proui-plugin
+2025-12-10 15:03:07,082-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-cargo
+2025-12-10 15:03:07,083-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-composer
+2025-12-10 15:03:07,083-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-onboarding-plugin
+2025-12-10 15:03:07,083-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-maven
+2025-12-10 15:03:07,083-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-docker
+2025-12-10 15:03:07,083-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-rubygems
+2025-12-10 15:03:07,083-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-npm
+2025-12-10 15:03:07,084-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-nuget
+2025-12-10 15:03:07,084-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-repository-pypi
+2025-12-10 15:03:07,084-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-saml-plugin
+2025-12-10 15:03:07,084-0800 INFO  [main] *SYSTEM org.sonatype.nexus.rapture.internal.RaptureWebResourceBundle -   nexus-analytics-plugin
+2025-12-10 15:03:07,114-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.webresources.WebResourceServlet - Max-age: 30 days (2592000 seconds)
+2025-12-10 15:03:07,125-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.wonderland.DownloadServiceImpl - Downloads directory: /opt/nexus/sonatype-work/nexus3/downloads
+2025-12-10 15:03:07,331-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.atlas.SupportZipGeneratorImpl - Maximum included file size: 30 megabytes
+2025-12-10 15:03:07,332-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.atlas.SupportZipGeneratorImpl - Maximum ZIP file size: 50 megabytes
+2025-12-10 15:03:07,737-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.script.ScriptEngineManagerProvider - Detected 1 engine-factories
+2025-12-10 15:03:07,738-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.script.ScriptEngineManagerProvider - Engine-factory: Groovy Scripting Engine v2.0; language=Groovy, version=3.0.19, names=[groovy, Groovy], mime-types=[application/x-groovy], extensions=[groovy]
+2025-12-10 15:03:07,738-0800 INFO  [main] *SYSTEM org.sonatype.nexus.internal.script.ScriptEngineManagerProvider - Default language: groovy
+2025-12-10 15:03:08,073-0800 INFO  [main] *SYSTEM org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2025-12-10 15:03:09,485-0800 INFO  [main] *SYSTEM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor - Inconsistent constructor declaration on bean with name 'maliciousRiskOnDiskAnalytics': single autowire-marked constructor flagged as optional - this constructor is effectively required since there is no default constructor to fall back to: public com.sonatype.analytics.internal.MaliciousRiskOnDiskAnalytics(com.sonatype.nexus.risk.visualizer.MaliciousRiskService,java.lang.Boolean)
+2025-12-10 15:03:09,711-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Starting jetty
+2025-12-10 15:03:09,725-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Applying configuration: file:/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty.xml
+2025-12-10 15:03:10,093-0800 INFO  [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Applying configuration: file:/opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-https.xml
+2025-12-10 15:03:10,097-0800 WARN  [main] *SYSTEM org.eclipse.jetty.xml.XmlConfiguration - Config error java.lang.IllegalStateException: No object for refid=httpConfig at <Ref refid="httpConfig"><Set name="secureScheme">https</Set><Set name="securePort"><Property name="application-port-ssl"/></Set></Ref> in file:///opt/nexus/nexus-3.86.2-01/etc/jetty/jetty-https.xml
+2025-12-10 15:03:10,097-0800 ERROR [main] *SYSTEM org.sonatype.nexus.bootstrap.entrypoint.jetty.JettyServer - Start failed
+java.lang.IllegalStateException: No object for refid=httpConfig
