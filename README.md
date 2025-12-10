@@ -1,34 +1,22 @@
 
--Xms6G
--Xmx6G
--XX:MaxDirectMemorySize=15530M
+-Xms2703m
+-Xmx2703m
 -XX:+UnlockDiagnosticVMOptions
 -XX:+LogVMOutput
--XX:LogFile=/opt/nexus/nexus3/log/jvm.log
+-XX:LogFile=../sonatype-work/nexus3/log/jvm.log
 -XX:-OmitStackTraceInFastThrow
--Djava.net.preferIPv4Stack=true
--Djavax.net.ssl.trustStore=/opt/nexus/ssl/nexus01.jks
--Djavax.net.ssl.trustStorePassword=edrcmadm
--Djavax.net.ssl.keyStore=/opt/nexus/ssl/nexus01.jks
--Djavax.net.ssl.keyStorePassword=edrcmadm
 -Dkaraf.home=.
 -Dkaraf.base=.
--Dkaraf.etc=etc/karaf
--Djava.util.logging.config.file=etc/karaf/java.util.logging.properties
--Dkaraf.data=/opt/nexus/sonatype-work/nexus3
--Dkaraf.log=/opt/nexus/sonatype-work/nexus3/log
--Djava.io.tmpdir=/opt/nexus/sonatype-work/nexus3/tmp
--Dkaraf.startLocalConsole=false
+-Djava.util.logging.config.file=etc/spring/java.util.logging.properties
+-Dkaraf.data=../sonatype-work/nexus3
+-Dkaraf.log=../sonatype-work/nexus3/log
+-Djava.io.tmpdir=../sonatype-work/nexus3/tmp
 -Djdk.tls.ephemeralDHKeySize=2048
+-Dfile.encoding=UTF-8
 #
 # additional vmoptions needed for Java9+
 #
 --add-reads=java.xml=java.logging
---add-exports=java.base/org.apache.karaf.specs.locator=java.xml,ALL-UNNAMED
---patch-module
-java.base=./lib/endorsed/org.apache.karaf.specs.locator-4.3.9.jar
---patch-module
-java.xml=./lib/endorsed/org.apache.karaf.specs.java.xml-4.3.9.jar
 --add-opens
 java.base/java.security=ALL-UNNAMED
 --add-opens
@@ -50,4 +38,3 @@ java.rmi/sun.rmi.transport.tcp=ALL-UNNAMED
 --add-exports=java.base/sun.security.x509=ALL-UNNAMED
 --add-exports=java.base/sun.security.rsa=ALL-UNNAMED
 --add-exports=java.base/sun.security.pkcs=ALL-UNNAMED
-        
