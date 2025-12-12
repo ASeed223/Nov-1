@@ -1,1 +1,5 @@
-Hi, the branches have been recreated. In the future, can you please also include the branches that the new branches based on so we can aviod this happen again. I also know that your colleage made a PR merge into the develop/25.4.5.1 yesterday and can you let him know so he can merge his change into the develop branch again? Thank you.
+Hi, the branches have been recreated. In the future, could you please also include the base branches that the new branches are created from, so we can avoid this happening again?
+
+I also noticed that your colleague merged a PR into develop/25.4.5.1 yesterday. Could you please let him know to merge his changes into the develop branch again?
+
+Thank you.
