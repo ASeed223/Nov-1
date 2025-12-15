@@ -1,1 +1,1 @@
-Add Nexus API health check (HTTP 200) and auto-restart logic.
+Good morning, everyone. Yesterday, after the morning meeting, I focused on fixing the alias on lxpd208 and lxpd209 so we can run the status command to check the server status whenever those servers are restarted. After fixing the status command, I noticed that the Nexus HA UI sometimes returns a 404 error even though the process is running. So I am planning to update the Ansible playbook to include an API health check. This will ensure the server is fully ready after startup. That’s my plan for the day.
