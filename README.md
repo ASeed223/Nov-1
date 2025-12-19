@@ -1,5 +1,5 @@
 ---
-- name: Upgrade Nexus Repository Manager (Step 1: Find, Extract & Archive)
+- name: Upgrade Nexus HA
   hosts: lxpd208
   gather_facts: no
   vars_prompt:
@@ -58,8 +58,8 @@
       ansible.builtin.file:
         path: "{{ nexus_root }}/archive"
         state: directory
-        owner: nexus
-        group: nexus
+        owner: cmdeploy
+        group: edrcmadm
         mode: '0755'
 
     - name: "Move tarball to archive folder"
