@@ -4,7 +4,7 @@
   gather_facts: no
   vars_prompt:
     - name: "target_version"
-      prompt: "Enter target version (e.g. 3.86)"
+      prompt: "Enter target version (e.g. 3.87)"
       private: no
 
   vars:
@@ -29,7 +29,7 @@
 
     - name: "Set target directory path"
       ansible.builtin.set_fact:
-        # Sort by modification time and pick the latest one just in case
+        # Sort by modification time and pick the latest one
         new_nexus_dir: "{{ (nexus_dirs.files | sort(attribute='mtime') | last).path }}"
 
     - name: "Confirm Target Directory"
@@ -59,10 +59,16 @@
         - { regex: '^-XX:LogFile=', line: '-XX:LogFile=/opt/nexus/sonatype-work/nexus3/log/jvm.log' }
 
     # 3. Configure jetty-https.xml
+    - name: "Update KeyStorePath to nexus01.jks"
+      ansible.builtin.replace:
+        path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
+        # Finds the property default="keystore.jks" (or anything else) and changes it to nexus01.jks
+        regexp: '(<Property name="jetty.sslContext.keyStorePath" default=")(.*)(" />)'
+        replace: '\1nexus01.jks\3'
+
     - name: "Update KeyStorePassword"
       ansible.builtin.replace:
         path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
-        # Regex: Capture <Set...>, capture </Set>, replace the middle part
         regexp: '(<Set name="KeyStorePassword">)(.*)(</Set>)'
         replace: '\1{{ hardcoded_password }}\3'
 
@@ -75,7 +81,6 @@
     - name: "Update TrustStorePassword"
       ansible.builtin.replace:
         path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
-        # Note: TrustStorePassword tag has 'property' attribute, so we use .*
         regexp: '(<Set name="TrustStorePassword".*>)(.*)(</Set>)'
         replace: '\1{{ hardcoded_password }}\3'
 
