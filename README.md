@@ -1,149 +1,98 @@
--Xms6G
--Xmx6G
--XX:MaxDirectMemorySize=15530M
--XX:+UnlockDiagnosticVMOptions
--XX:+LogVMOutput
--XX:LogFile=/opt/nexus/sonatype-work/nexus3/log/jvm.log
--XX:-OmitStackTraceInFastThrow
--Djava.net.preferIPv4Stack=true
--Dkaraf.home=.
--Dkaraf.base=.
--Djava.util.logging.config.file=etc/spring/java.util.logging.properties
--Dkaraf.data=/opt/nexus/sonatype-work/nexus3
--Dkaraf.log=/opt/nexus/sonatype-work/nexus3/log
--Djava.io.tmpdir=/opt/nexus/sonatype-work/nexus3/tmp
--Dkaraf.startLocalConsole=false
--Djdk.tls.ephemeralDHKeySize=2048
--Dfile.encoding=UTF-8
-#
-# additional vmoptions needed for Java9+
-#
---add-reads=java.xml=java.logging
---add-opens
-java.base/java.security=ALL-UNNAMED
---add-opens
-java.base/java.net=ALL-UNNAMED
---add-opens
-java.base/java.lang=ALL-UNNAMED
---add-opens
-java.base/java.util=ALL-UNNAMED
---add-opens
-java.naming/javax.naming.spi=ALL-UNNAMED
---add-opens
-java.rmi/sun.rmi.transport.tcp=ALL-UNNAMED
---add-exports=java.base/sun.net.www.protocol.http=ALL-UNNAMED
---add-exports=java.base/sun.net.www.protocol.https=ALL-UNNAMED
---add-exports=java.base/sun.net.www.protocol.jar=ALL-UNNAMED
---add-exports=jdk.xml.dom/org.w3c.dom.html=ALL-UNNAMED
---add-exports=jdk.naming.rmi/com.sun.jndi.url.rmi=ALL-UNNAMED
---add-exports=java.security.sasl/com.sun.security.sasl=ALL-UNNAMED
---add-exports=java.base/sun.security.x509=ALL-UNNAMED
---add-exports=java.base/sun.security.rsa=ALL-UNNAMED
---add-exports=java.base/sun.security.pkcs=ALL-UNNAMED
+---
+- name: Test Configuration Only (nexus.vmoptions & jetty-https.xml)
+  hosts: lxpd208
+  gather_facts: no
+  vars_prompt:
+    - name: "target_version"
+      prompt: "Enter target version (e.g. 3.86)"
+      private: no
 
+  vars:
+    nexus_root: "/opt/nexus"
+    # Hardcoded password for testing; will be encrypted later
+    hardcoded_password: "OBF:123789Qw#"
 
+  tasks:
+    # ==========================================================================
+    # 1. Locate Directory (Logic: Find -> Calculate Path)
+    # ==========================================================================
+    - name: "Find Nexus tarball to identify version directory"
+      ansible.builtin.find:
+        paths: "{{ nexus_root }}"
+        patterns: "*{{ target_version }}*.tar.gz"
+      register: nexus_tarballs
 
+    - name: "Fail if no tarball found"
+      ansible.builtin.fail:
+        msg: "No tarball found for version {{ target_version }}"
+      when: nexus_tarballs.matched == 0
 
-<?xml version="1.0"?>
-<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "https://jetty.org/configure_10_0.dtd">
+    - name: "Set directory facts"
+      ansible.builtin.set_fact:
+        nexus_tarball_name: "{{ (nexus_tarballs.files | sort(attribute='mtime') | last).path | basename }}"
 
-<Configure id="Server" class="org.eclipse.jetty.server.Server">
+    - name: "Calculate directory path"
+      ansible.builtin.set_fact:
+        # Logic: nexus-3.86.2-01-unix.tar.gz -> nexus-3.86.2-01
+        new_nexus_dir: "{{ nexus_root }}/{{ (nexus_tarball_name | regex_replace('(-unix|-linux-x86_64)?\\.tar\\.gz$', '')) }}"
 
-  <New id="httpsConfig" class="org.eclipse.jetty.server.HttpConfiguration">
-    <Arg><Ref refid="baseHttpConfig"/></Arg>
-    <Set name="securePort"><Property name="application-port-ssl" /></Set>
-    <Call name="addCustomizer">
-      <Arg>
-        <New id="secureRequestCustomizer" class="org.eclipse.jetty.server.SecureRequestCustomizer">
-          <Set name="stsMaxAge"><Property name="jetty.https.stsMaxAge" default="7776000"/></Set>
-          <Set name="stsIncludeSubDomains"><Property name="jetty.https.stsIncludeSubDomains" default="false"/></Set>
-          <Set name="sniHostCheck"><Property name="jetty.https.sniHostCheck" default="false"/></Set>
-        </New>
-      </Arg>
-    </Call>
-  </New>
+    - name: "Confirm Target Directory"
+      ansible.builtin.debug:
+        msg: "Testing configuration on: {{ new_nexus_dir }}"
 
-  <New id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
-    <Set name="Provider" property="jetty.sslContext.provider" />
-    <Set name="KeyStorePath">
-      <Call name="resolvePath" class="org.eclipse.jetty.xml.XmlConfiguration">
-        <Arg><Property name="ssl.etc"/></Arg>
-        <Arg><Property name="jetty.sslContext.keyStorePath" default="nexus01.jks" /></Arg>
-      </Call>
-    </Set>
-    <Set name="KeyStorePassword">OBF:123789Qw#</Set>
-    
-    <Set name="KeyStoreType" property="jetty.sslContext.keyStoreType" />
-    <Set name="KeyStoreProvider" property="jetty.sslContext.keyStoreProvider" />
-    
-    <Set name="KeyManagerPassword">OBF:123789Qw#</Set>
-    
-    <Set name="TrustStorePath">
-      <Call name="resolvePath" class="org.eclipse.jetty.xml.XmlConfiguration">
-        <Arg><Property name="ssl.etc"/></Arg>
-        <Arg><Property name="jetty.sslContext.keyStorePath" default="nexus01.jks" /></Arg>
-      </Call>
-    </Set>
-    
-    <Set name="TrustStorePassword" property="jetty.sslContext.trustStorePassword">OBF:123789Qw#</Set>
-    
-    <Set name="TrustStoreType" property="jetty.sslContext.trustStoreType" />
-    <Set name="TrustStoreProvider" property="jetty.sslContext.trustStoreProvider" />
-    <Set name="EndpointIdentificationAlgorithm" property="jetty.sslContext.endpointIdentificationAlgorithm" />
-    <Set name="NeedClientAuth" property="jetty.sslContext.needClientAuth" />
-    <Set name="WantClientAuth" property="jetty.sslContext.wantClientAuth" />
-    <Set name="useCipherSuitesOrder" property="jetty.sslContext.useCipherSuitesOrder" />
-    <Set name="sslSessionCacheSize" property="jetty.sslContext.sslSessionCacheSize" />
-    <Set name="sslSessionTimeout" property="jetty.sslContext.sslSessionTimeout" />
-    <Set name="RenegotiationAllowed" property="jetty.sslContext.renegotiationAllowed" />
-    <Set name="RenegotiationLimit" property="jetty.sslContext.renegotiationLimit" />
-    <Set name="SniRequired" property="jetty.sslContext.sniRequired" />
-    
-    <Set name="IncludeProtocols">
-      <Array type="java.lang.String">
-        <Item>TLSv1.2</Item>
-      </Array>
-    </Set>
-  </New>
+    # ==========================================================================
+    # 2. Configure nexus.vmoptions
+    # ==========================================================================
+    - name: "Update Memory Settings (6G)"
+      ansible.builtin.lineinfile:
+        path: "{{ new_nexus_dir }}/bin/nexus.vmoptions"
+        regexp: "{{ item.regex }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regex: '^-Xms', line: '-Xms6G' }
+        - { regex: '^-Xmx', line: '-Xmx6G' }
+        - { regex: '^-XX:MaxDirectMemorySize=', line: '-XX:MaxDirectMemorySize=15530M' }
 
-  <Call name="addConnector">
-    <Arg>
-      <New id="httpsConnector" class="org.eclipse.jetty.server.ServerConnector">
-        <Arg name="server"><Ref refid="Server" /></Arg>
-        <Arg name="acceptors" type="int"><Property name="jetty.ssl.acceptors" default="1"/></Arg>
-        <Arg name="selectors" type="int"><Property name="jetty.ssl.selectors" default="-1"/></Arg>
-        <Arg name="factories">
-          <Array type="org.eclipse.jetty.server.ConnectionFactory">
-            <Item>
-              <New class="org.sonatype.nexus.bootstrap.jetty.InstrumentedConnectionFactory">
-                <Arg>
-                  <New class="org.eclipse.jetty.server.SslConnectionFactory">
-                    <Arg name="next">http/1.1</Arg>
-                    <Arg name="sslContextFactory"><Ref refid="sslContextFactory"/></Arg>
-                  </New>
-                </Arg>
-              </New>
-            </Item>
-            <Item>
-              <New class="org.eclipse.jetty.server.HttpConnectionFactory">
-                <Arg name="config"><Ref refid="httpsConfig" /></Arg>
-              </New>
-            </Item>
-          </Array>
-        </Arg>
-        <Set name="host"><Property name="application-host" /></Set>
-        <Set name="port"><Property name="application-port-ssl" /></Set>
-        <Set name="idleTimeout"><Property name="jetty.ssl.idleTimeout" default="30000"/></Set>
-        <Set name="acceptorPriorityDelta" property="jetty.ssl.acceptorPriorityDelta"/>
-        <Set name="acceptQueueSize" property="jetty.ssl.acceptQueueSize"/>
-        <Set name="reuseAddress"><Property name="jetty.ssl.reuseAddress" default="true"/></Set>
-        <Set name="reusePort"><Property name="jetty.ssl.reusePort" default="false"/></Set>
-        <Set name="acceptedTcpNoDelay"><Property name="jetty.ssl.acceptedTcpNoDelay" default="true"/></Set>
-        <Set name="acceptedReceiveBufferSize" property="jetty.ssl.acceptedReceiveBufferSize" />
-        <Set name="acceptedSendBufferSize" property="jetty.ssl.acceptedSendBufferSize" />
-      </New>
-    </Arg>
-  </Call>
+    - name: "Update Data & Log Paths"
+      ansible.builtin.lineinfile:
+        path: "{{ new_nexus_dir }}/bin/nexus.vmoptions"
+        regexp: "{{ item.regex }}"
+        line: "{{ item.line }}"
+      loop:
+        - { regex: '^-Dkaraf.data=', line: '-Dkaraf.data=/opt/nexus/sonatype-work/nexus3' }
+        - { regex: '^-Dkaraf.log=', line: '-Dkaraf.log=/opt/nexus/sonatype-work/nexus3/log' }
+        - { regex: '^-Djava.io.tmpdir=', line: '-Djava.io.tmpdir=/opt/nexus/sonatype-work/nexus3/tmp' }
+        - { regex: '^-XX:LogFile=', line: '-XX:LogFile=/opt/nexus/sonatype-work/nexus3/log/jvm.log' }
 
-</Configure>
+    # ==========================================================================
+    # 3. Configure jetty-https.xml
+    # ==========================================================================
+    - name: "Update KeyStorePassword"
+      ansible.builtin.replace:
+        path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
+        # Regex: Capture <Set...>, capture </Set>, replace the middle part
+        regexp: '(<Set name="KeyStorePassword">)(.*)(</Set>)'
+        replace: '\1{{ hardcoded_password }}\3'
 
+    - name: "Update KeyManagerPassword"
+      ansible.builtin.replace:
+        path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
+        regexp: '(<Set name="KeyManagerPassword">)(.*)(</Set>)'
+        replace: '\1{{ hardcoded_password }}\3'
+
+    - name: "Update TrustStorePassword"
+      ansible.builtin.replace:
+        path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
+        # Note: TrustStorePassword tag has 'property' attribute, so we use .*
+        regexp: '(<Set name="TrustStorePassword".*>)(.*)(</Set>)'
+        replace: '\1{{ hardcoded_password }}\3'
+
+    # ==========================================================================
+    # 4. Completion Summary
+    # ==========================================================================
+    - name: "Test Complete"
+      ansible.builtin.debug:
+        msg: 
+          - "Configuration Updated."
+          - "Please check: {{ new_nexus_dir }}/bin/nexus.vmoptions"
+          - "Please check: {{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
