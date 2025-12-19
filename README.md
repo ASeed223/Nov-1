@@ -2,6 +2,7 @@
 - name: Upgrade Nexus HA
   hosts: lxpd208
   gather_facts: no
+  become: yes  # <--- 关键修复：添加这一行，启用 sudo 权限
   vars_prompt:
     - name: "target_version"
       prompt: "Enter target version (e.g. 3.86)"
