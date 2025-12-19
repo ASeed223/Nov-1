@@ -1,132 +1,55 @@
 ---
-- name: Upgrade Nexus IQ Server
-  hosts: lxpd196
+- name: Upgrade Nexus Repository Manager (Step 1: Find & Extract)
+  hosts: lxpd208
   gather_facts: no
+  vars_prompt:
+    - name: "target_version"
+      prompt: "Enter target version (e.g. 3.86)"
+      private: no
 
   tasks:
-    - name: "Set IQ version from extra vars"
-      ansible.builtin.set_fact:
-        iq_version: "{{ iq_version }}"
-
     - name: "Set Nexus root path"
       ansible.builtin.set_fact:
-        nexus_root: "/opt/appdata/nexus"
+        nexus_root: "/opt/nexus"
 
-    # Find the tar.gz file containing the full version string
-    - name: "Find IQ tarball for version {{ iq_version }}"
+    # 1. Find the tarball matching the input version
+    - name: "Find Nexus tarball for version {{ target_version }}"
       ansible.builtin.find:
         paths: "{{ nexus_root }}"
-        patterns: "*{{ iq_version }}*.tar.gz"
+        patterns: "*{{ target_version }}*.tar.gz"
         recurse: no
         file_type: file
-      register: iq_tarballs
+      register: nexus_tarballs
 
-    - name: "Fail if no tarball found for version {{ iq_version }}"
+    - name: "Fail if no tarball found for version {{ target_version }}"
       ansible.builtin.fail:
-        msg: "No IQ tarball found for version {{ iq_version }} in {{ nexus_root }}"
-      when: iq_tarballs.matched == 0
+        msg: "No Nexus tarball found for version {{ target_version }} in {{ nexus_root }}"
+      when: nexus_tarballs.matched == 0
 
     - name: "Pick latest tarball by mtime"
-      set_fact:
-        iq_tarball: "{{ (iq_tarballs.files | sort(attribute='mtime') | last).path }}"
+      ansible.builtin.set_fact:
+        nexus_tarball: "{{ (nexus_tarballs.files | sort(attribute='mtime') | last).path }}"
 
-    # Extract full version from tarball filename (e.g. 1.193.0-01)
-    - name: "Extract full version string from tarball filename"
-      set_fact:
-        full_version: >-
-          {{ (iq_tarball | basename).split('-bundle.tar.gz')[0].split('nexus-iq-server-')[-1] }}
+    - name: "Display selected tarball"
+      ansible.builtin.debug:
+        msg: "Selected tarball: {{ nexus_tarball }}"
 
-    - name: "Create target directory nexus-iq-server-{{ full_version }}"
-      ansible.builtin.file:
-        path: "{{ nexus_root }}/nexus-iq-server-{{ full_version }}"
-        state: directory
+    # 2. Calculate the directory name that will be created
+    # Logic: nexus-3.86.2-01-unix.tar.gz -> nexus-3.86.2-01
+    - name: "Extract expected directory name from filename"
+      ansible.builtin.set_fact:
+        # Removes .tar.gz and -unix/-linux suffixes to get the folder name
+        extracted_dir_name: "{{ (nexus_tarball | basename) | regex_replace('(-unix|-linux-x86_64)?\\.tar\\.gz$', '') }}"
 
-    - name: "Extract IQ tarball into versioned directory"
+    - name: "Set full path for the new release"
+      ansible.builtin.set_fact:
+        new_nexus_dir: "{{ nexus_root }}/{{ extracted_dir_name }}"
+
+    # 3. Extract the file
+    # Note: Nexus Repo tarballs usually contain the folder structure inside them
+    - name: "Extract Nexus tarball"
       ansible.builtin.unarchive:
-        src: "{{ iq_tarball }}"
-        dest: "{{ nexus_root }}/nexus-iq-server-{{ full_version }}"
+        src: "{{ nexus_tarball }}"
+        dest: "{{ nexus_root }}"
         remote_src: yes
-        extra_opts: ["--strip-components=0"]
-
-    - set_fact:
-        new_iq_dir: "{{ nexus_root }}/nexus-iq-server-{{ full_version }}"
-
-    # Read the current symlink
-    - name: "Get current nexus-iq-server symlink"
-      ansible.builtin.stat:
-        path: "{{ nexus_root }}/nexus-iq-server"
-        follow: false
-      register: iq_symlink
-
-    - set_fact:
-        current_iq_dir: "{{ iq_symlink.stat.lnk_target }}"
-
-    # Copy config.yml from old to new version
-    - name: "Copy config.yml to new version"
-      ansible.builtin.copy:
-        src: "{{ current_iq_dir }}/config.yml"
-        dest: "{{ new_iq_dir }}/config.yml"
-        remote_src: yes
-
-    # Update the symlink to point to new version
-    - name: "Update symlink to new version"
-      ansible.builtin.file:
-        path: "{{ nexus_root }}/nexus-iq-server"
-        src: "{{ new_iq_dir }}"
-        state: link
-        force: yes
-
-    # Restart the IQ Server using fixed path
-    - name: Stop Nexus IQ Server
-      ansible.builtin.shell: /opt/appdata/nexus/restart-iq-server stop
-      register: stop_iq
-      changed_when: stop_iq.rc == 0
-      failed_when: stop_iq.rc != 0
-
-    - name: Wait until Nexus IQ Server process disappears
-      ansible.builtin.shell: |
-        set -o pipefail
-        ps -ef | grep '[j]ava' | grep 'nexus-iq-server' > /dev/null
-      register: proc_check
-      changed_when: false
-      failed_when: false 
-      retries: 6              
-      delay: 5
-      until: proc_check.rc != 0  
-
-    - name: Fail if Nexus IQ Server is still running
-      ansible.builtin.fail:
-        msg: "Nexus IQ Server failed to stop on {{ inventory_hostname }}!"
-      when: proc_check.rc == 0 
-
-    - name: Wait 10 seconds
-      ansible.builtin.pause:
-        seconds: 10
-
-    - name: Start Nexus IQ Server
-      ansible.builtin.shell: /opt/appdata/nexus/restart-iq-server start
-      register: start_iq
-      changed_when: start_iq.rc == 0
-      failed_when: start_iq.rc != 0
-
-    - name: Wait until Nexus IQ Server process appears
-      ansible.builtin.shell: |
-        set -o pipefail
-        ps -ef | grep '[j]ava' | grep 'nexus-iq-server' > /dev/null
-      register: proc_check
-      changed_when: false
-      failed_when: false
-      retries: 6             
-      delay: 5
-      until: proc_check.rc == 0  
-
-    - name: Fail if Nexus IQ Server failed to start
-      ansible.builtin.fail:
-        msg: "Nexus IQ Server failed to start on {{ inventory_hostname }}!"
-      when: proc_check.rc != 0
-
-    # Remove tar.gz after successful deployment
-    - name: Remove tarball {{ iq_tarball }} after deployment
-      ansible.builtin.file:
-        path: "{{ iq_tarball }}"
-        state: absent
+        creates: "{{ new_nexus_dir }}"
