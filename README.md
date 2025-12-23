@@ -1,1 +1,1 @@
-Hi, I have been set the auth method environment variable for TPF UI application to use SAML to CS1 and CS2 environment. Please check and let me know if there is any issue.
+Hi, I have set the authentication method environment variable for the TPF UI application to use SAML in the CS1 and CS2 environments. Please check and let me know if there are any issues.
