@@ -1,7 +1,7 @@
-Hello,
+Hi Philip and Dylan,
 
-Thanks for flagging this.
+If you’re planning to send out the on-call email next week using the email I sent this week as a template, please remove the following email address from the distribution list.
 
-The email was sent using last week’s on-call distribution list, which included the 1031 Annual Filing mailbox. I’ll notify the next on-call team to remove your email address from the list so you won’t receive these messages going forward.
+The mailbox was included because the list was copied from a previous on-call email, and it should not be part of the on-call notifications.
 
 Thank you.
