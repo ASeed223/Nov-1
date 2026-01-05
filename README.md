@@ -1,1 +1,3 @@
-Only users assigned the "maven_developer" role have access to generate their own user tokens. If a team member cannot access the page, please create a task for the CM team to grant them access. All we need is their User ID. Note that FTB employees do not require approval, but vendors (SPs) must obtain approval from their supervisor.
+Hi Jay, thanks for the help. I’ve confirmed with Gray that he can now access the User Token page.
+
+For future reference, generating user tokens is restricted to those assigned the "CM: maven_developer" role. If other Maven developers need access, that's the role we want to assign them.
