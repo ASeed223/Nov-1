@@ -1,2 +1,1 @@
-Good morning everyone, just a quick update from me.
-Today, I’ll spend some time checking emails and responding to a few tasks that came up while I was out last week. Since I’m on call this week, I’ll also spend some time preparing and getting ready for tonight’s on-call duty. That’s my plan for today.
+It was a great trip. I went during the New Year, so the city was pretty quiet and there weren’t many people around, which I actually enjoyed. I feel like the weather in Portland last week was better than Sacramento—at least Portland had a few sunny days. The only downside was that I ended up catching a cold after I got back. The only downside was that I ended up catching a cold after I got back, and I’m still recovering.
