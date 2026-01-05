@@ -1,7 +1,5 @@
-Hi Philip and Dylan,
+Thanks for the help, Jay. I was researching the setup, and your reply really saved me some time.
 
-If you’re planning to send out the on-call email next week using the email I sent this week as a template, please remove the following email address from the distribution list.
+I found the settings you mentioned, but it looks like nx-usertoken-current might be a better fit for them? Its description says it gives "All permissions for Current User Token," which would allow developers to view, generate, and reset their own tokens.
 
-The mailbox was included because the list was copied from a previous on-call email, and it should not be part of the on-call notifications.
-
-Thank you.
+On the other hand, nx-usertoken-users is described as "Reset permission for all User Tokens," and I'm not sure if that actually allows them to generate their own. Should I go with nx-usertoken-current instead to make sure they can manage their own keys?
