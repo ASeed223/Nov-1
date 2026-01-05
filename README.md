@@ -1,1 +1,7 @@
-Hey Gray, just following up on the security concern you raised about plain-text passwords. I discussed with the CM team, and we've enabled User Tokens in Nexus. We set the expiration to 365 days so it stays consistent with our ADO and OCP standards. You can grab your tokens from your user profile now and use them to replace the clear-text credentials in your Maven settings.
+Hello,
+
+Thanks for flagging this.
+
+The email was sent using last week’s on-call distribution list, which included the 1031 Annual Filing mailbox. I’ll notify the next on-call team to remove your email address from the list so you won’t receive these messages going forward.
+
+Thank you.
