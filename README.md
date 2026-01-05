@@ -1,3 +1,2 @@
-Hi Jay, thanks for the help. I’ve confirmed with Gray that he can now access the User Token page.
-
-For future reference, generating user tokens is restricted to those assigned the "CM: maven_developer" role. If other Maven developers need access, that's the role we want to assign them.
+Good morning everyone,
+Yesterday, I mainly caught up on emails and followed up on tasks related to me while I was out last week. Other than that, I completed a few Pega ZIP deployments and focused on my on-call duties last night. Overall, the on-call went smoothly, and I was able to complete all the PORs and release the environments. As for today, I will attend the OCP sprint review meeting and continue my on-call duty tonight. That’s my plan for the day.
