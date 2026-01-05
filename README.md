@@ -1,1 +1,1 @@
-The issue in RedHatMaven repo was resolved by using the Global SSL Certificates interface to "Load from server" using the specific hostname. This allowed Nexus to import and trust the entire certificate chain, successfully restoring the repository status to Online - Ready to Connect.
+Hi Jay, forwarding this over. The team is concerned about passwords being saved in clear text for Maven. We can easily fix this by turning on "User Tokens" in Nexus. I’ve already got the backend settings ready; just need to enable the capability. Does that sound good to you?
