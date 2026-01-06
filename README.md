@@ -1,1 +1,3 @@
-scanTargets: '**/* !**/node_modules/** !**/*.js !**/*.css !**/*.json !**/*.map !**/.git/**'
+Good morning everyone, yesterday, besides attending meetings, I was troubleshooting a failure in the IQ scan pipeline. Other than that, I mainly focused on my on-call duties. I had four PORs last night, and thanks to Edgar for setting up the PySpark pipeline, which made things much easier for me. Later in the evening, I was able to complete the deployment and release it before logging off.
+
+As for today, it will be pretty much the same. I will continue working on the tasks on my board, and I will also shadow Shelly tonight and walk her through some of the PORs that I’ll be working on. That’s my plan for the day.
