@@ -1,3 +1,7 @@
-Good morning everyone, yesterday, besides attending meetings, I was troubleshooting a failure in the IQ scan pipeline. Other than that, I mainly focused on my on-call duties. I had four PORs last night, and thanks to Edgar for setting up the PySpark pipeline, which made things much easier for me. Later in the evening, I was able to complete the deployment and release it before logging off.
+Hi team,
 
-As for today, it will be pretty much the same. I will continue working on the tasks on my board, and I will also shadow Shelly tonight and walk her through some of the PORs that I’ll be working on. That’s my plan for the day.
+Just a quick update: we’ve encountered a SQL patching issue during the TST1A deployment, and a task (1003063) has been created. I’ve already contacted Dave, and he is working on getting someone online to help resolve the issue.
+
+I’ll keep everyone posted on any updates.
+
+Thanks.
