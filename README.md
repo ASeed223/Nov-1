@@ -1,4 +1,1 @@
-Good morning everyone, just a quick update from me.
-Yesterday, besides attending a few meetings, I completed the Online Help deployment with Tawheed. Later that night, I shadowed Shelly and demonstrated how to work on the Invariant POR, Pega POR, and AnalyticModels POR, including how to run the OCP Codestream 1 pipeline. We also went over the overall on-call procedures. In addition, I completed the TST1A and TST1B deployments and released the environments.
-
-As for today, it will be pretty much the same. I will mainly focus on meetings and continue my on-call duty tonight. That’s my plan for today.
+Good evening, TST1A deployment is complete and is ready for testing. However bpm_app_5\26.01.0106_SAF.zip (And none of the SAF got imported )imported tonight. Because the CO for the DBCR wasn't transitioned to Dev Complete until this afternoon, so the DBCR missed today's build. The bpm_app_5\26.01.0106_SAF.zip will import it tomorrow.
