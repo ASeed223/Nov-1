@@ -1,1 +1,1 @@
-The TST1B deployment also still ongoing due to long running DataStage deployment in the EDW_FDM project. Also there is an Invariant deployment issue due to a file permission issue. Task have been created to invesgative. Environemnt conditionally release.
+The TST1B deployment is still ongoing due to a long-running DataStage deployment in the EDW_FDM project. There is also an invariant deployment issue caused by a file permission problem. A task has been created to investigate this issue. The environment has been conditionally released.
