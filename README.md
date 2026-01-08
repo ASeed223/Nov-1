@@ -1,10 +1,1 @@
-Hi Neo,
-
-I noticed that you will be out of the office tomorrow, so I wanted to check with you in advance. Would it be okay if I take next Monday off to recover from this week’s on-call duty?
-
-There have been quite a few things going on for this week's on call, and both Cathy and I have been working pretty late every day to keep things moving. I just wanted to see if taking Monday off would be acceptable.
-
-Please let me know your thoughts. Thanks!
-
-
-Time Off Request for Next Monday
+Really we always want to use the next lowest Releases branch, so even if the requestor says make develop/releases 26.1.0 from releases/25.4.0, if there is a releases/25.4.5.1 then we'd want to use that when making the 26.1.0 branches; at least I run into this sometimes
