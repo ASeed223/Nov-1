@@ -1,1 +1,5 @@
-The EDW_FDM_deploy pipeline consistently hangs after importing the Member.xml file, which in turn blocks the TFS Deploy Pipeline from completing. To proceed, the pipeline must be manually aborted in order for the overall deployment to finish. This issue has been occurring for some time. It is unclear whether this requires further investigation or action from our team.
+Hi Team, I wanted to flag an issue in PF1. I accidentally initiated a zip import. I tried to stop the process by refreshing the import wizard, but I'm not entirely sure if the import was fully cancelled or if some components were partially committed.
+
+I’ve checked with Lakshmi, and he mentioned it shouldn't break anything. However, based on our conversation, it sounds like a PF1 deployment might need to address or "fix" the state, depending on what went through.
+
+Since I will be OOO this Monday, I wanted to let you all know in case any unexpected issues happen in PF1. Thanks!
