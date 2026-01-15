@@ -1,1 +1,1 @@
-python3.11 -m pip show certifi
+sudo python3.11 -m pip install --upgrade "certifi>=2024.07.04"
