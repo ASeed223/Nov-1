@@ -11,7 +11,7 @@
   vars:
     nexus_root: "/opt/nexus"
     nexus_link: "/opt/nexus/nexus"
-    hardcoded_password: "OBF:123"
+    hardcoded_password: "OBF:1unr1sov1uvk1u9h1ua11uum1sov1uo7"
     secondary_node: "lxpd209"
 
   tasks:
@@ -43,9 +43,7 @@
         remote_src: yes
         creates: "{{ new_nexus_dir }}"
 
-    # === [UPDATED SECTION START] ===
     # 2. Configure nexus.vmoptions
-    # Strategy: Keep defaults, modify specific values, append if missing
     - name: "Update vmoptions (Memory, Paths, and Missing Flags)"
       ansible.builtin.lineinfile:
         path: "{{ new_nexus_dir }}/bin/nexus.vmoptions"
@@ -91,7 +89,6 @@
         path: "{{ new_nexus_dir }}/etc/jetty/jetty-https.xml"
         regexp: '(<Set name="TrustStorePassword".*>)(.*)(</Set>)'
         replace: '\1{{ hardcoded_password }}\3'
-    # === [UPDATED SECTION END] ===
 
     # PHASE 2: REPLICATION TO lxpd209
     - name: "Sync configured folder to {{ secondary_node }} using rsync"
