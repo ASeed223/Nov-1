@@ -11,7 +11,7 @@
   vars:
     nexus_root: "/opt/nexus"
     nexus_link: "/opt/nexus/nexus"
-    hardcoded_password: "OBF:123"
+    hardcoded_password: "OBF:1unr1sov1uvk1u9h1ua11uum1sov1uo7"
     secondary_node: "lxpd209"
 
   tasks:
