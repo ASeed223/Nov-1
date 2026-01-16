@@ -1,5 +1,5 @@
-vi /opt/nexus/sonatype-work/nexus3/etc/nexus.properties
+Good morning everyone,
+Last Friday, I mainly worked on the IQ Server monthly maintenance task. I was able to fix the configuration file issue and successfully use the Ansible playbook to upgrade the IQ Server to the latest version. I also updated the license threat groups to the newest as well.
+As for today, I will continue working on my Ansible playbook for the Nexus upgrade and plan to test it in the Nexus HA environment. I’ll also try to pick up or assist with any other tasks where I can help.
 
-This master password is used to encrypt/decrypt sensitive data (proxy passwords, LDAP bind, etc.) in the Nexus database.
-
-Important for HA: This key must be identical on both lxpd208 and lxpd209. If updated, the physical master.key file in /opt/nexus/sonatype-work/nexus3/security/ must be synchronized between nodes to ensure successful failover.
+That’s the plan for the day.
