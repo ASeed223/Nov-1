@@ -11,7 +11,7 @@
   vars:
     nexus_root: "/opt/nexus"
     nexus_link: "/opt/nexus/nexus"
-    hardcoded_password: "OBF:1unr1sov1uvk1u9h1ua11uum1sov1uo7"
+    hardcoded_password: "OBF:123"
     secondary_node: "lxpd209"
 
   tasks:
@@ -61,7 +61,7 @@
         - { regex: '^-Djava.io.tmpdir=', line: '-Djava.io.tmpdir=/opt/nexus/sonatype-work/nexus3/tmp' }
         - { regex: '^-XX:LogFile=', line: '-XX:LogFile=/opt/nexus/sonatype-work/nexus3/log/jvm.log' }
         
-        # Restore missing flags (Appends to end of file if not found)
+        # Restore missing flags
         - { regex: '^-Djava.net.preferIPv4Stack=', line: '-Djava.net.preferIPv4Stack=true' }
         - { regex: '^-Dkaraf.startLocalConsole=', line: '-Dkaraf.startLocalConsole=false' }
 
